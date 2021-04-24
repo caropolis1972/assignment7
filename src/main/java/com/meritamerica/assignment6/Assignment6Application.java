@@ -1,14 +1,14 @@
-package com.meritamerica.assignment5;
+package com.meritamerica.assignment6;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.meritamerica.assignment5.models.MeritAmericaBankApp;
+import com.meritamerica.assignment6.models.MeritAmericaBankApp;
 
 @SpringBootApplication
-public class Assignment5Application {
+public class Assignment6Application {
 	public static void main(String[] args) {
 		MeritAmericaBankApp.load();
-		SpringApplication.run(Assignment5Application.class, args);
+		SpringApplication.run(Assignment6Application.class, args);
 	}
 }

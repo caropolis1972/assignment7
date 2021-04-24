@@ -1,4 +1,4 @@
-package com.meritamerica.assignment5.controllers;
+package com.meritamerica.assignment6.controllers;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,8 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import com.meritamerica.assignment5.exceptions.*;
-import com.meritamerica.assignment5.models.*;
+import com.meritamerica.assignment6.exceptions.*;
+import com.meritamerica.assignment6.models.*;
 
 @RestController
 @Validated

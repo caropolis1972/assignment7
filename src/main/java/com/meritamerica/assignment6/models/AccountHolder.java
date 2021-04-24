@@ -1,10 +1,10 @@
-package com.meritamerica.assignment5.models;
+package com.meritamerica.assignment6.models;
 
 import java.util.ArrayList;
 
 import javax.validation.constraints.*;
 
-import com.meritamerica.assignment5.exceptions.ExceedsCombinedBalanceException;
+import com.meritamerica.assignment6.exceptions.ExceedsCombinedBalanceException;
 
 public class AccountHolder implements Comparable<AccountHolder> {
     private static final double COMBINED_BALANCE_LIMIT = 250000.0;

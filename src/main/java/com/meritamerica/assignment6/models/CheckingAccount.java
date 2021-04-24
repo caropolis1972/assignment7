@@ -1,4 +1,4 @@
-package com.meritamerica.assignment5.models;
+package com.meritamerica.assignment6.models;
 
 import java.text.ParseException;
 import java.util.Date;

@@ -1,4 +1,4 @@
-package com.meritamerica.assignment5.models;
+package com.meritamerica.assignment6.models;
 
 public class MeritAmericaBankApp {
 	public static void load() {

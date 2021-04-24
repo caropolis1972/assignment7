@@ -1,4 +1,4 @@
-package com.meritamerica.assignment5.models;
+package com.meritamerica.assignment6.models;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
