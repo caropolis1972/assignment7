@@ -4,26 +4,28 @@ import java.util.*;
 
 import javax.validation.*;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import com.meritamerica.assignment6.models.*;
+import com.meritamerica.assignment6.repositories.CDOfferingRepository;
 
 @RestController
 @Validated
 public class CDOfferingsController {	
+	@Autowired
+	CDOfferingRepository cdOfferingRepository;	
+	
 	@GetMapping("/CDOfferings")
-	public CDOffering[] getCDOfferings() { 
-		return MeritBank.getCDOfferings();
+	public List<CDOffering> getCDOfferings() { 
+		return cdOfferingRepository.findAll();
 	}
 	
 	@PostMapping("/CDOfferings")
 	@ResponseStatus(HttpStatus.CREATED)
 	public CDOffering createCDOffering(@Valid @RequestBody CDOffering cdOffering) {
-		ArrayList<CDOffering> cdOfferings = new ArrayList<>(Arrays.asList(getCDOfferings()));
-		cdOfferings.add(cdOffering);
-		MeritBank.setCDOfferings(cdOfferings.toArray(new CDOffering[0]));
-		return cdOffering;
+		return cdOfferingRepository.save(cdOffering);	
 	}
 }

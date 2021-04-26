@@ -5,12 +5,17 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import javax.validation.constraints.DecimalMax;
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.NotNull;
+import javax.persistence.*;
+import javax.validation.constraints.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+@MappedSuperclass
 public class BankAccount {
     // Instance variables
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private long accountNumber;
     
 	@NotNull(message = "Interest rate is required.")
@@ -23,23 +28,30 @@ public class BankAccount {
     private double interestRate;
     
     private Date accountOpenedOn;
-
+    
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "account_holder_id")
+    private AccountHolder accountHolder;
+    
     // Constructor w/ 2 parameters
     public BankAccount(double balance, double interestRate) {
-	this(balance, interestRate, new Date());
+    	this(balance, interestRate, new Date());
     }
 
     // Constructor w/3 parameters
-    public BankAccount(double balance, double interestRate, Date accountOpenedOn) {
-	this(MeritBank.getNextAccountNumber(), balance, interestRate, accountOpenedOn);
-    }
+    //public BankAccount(double balance, double interestRate, Date accountOpenedOn) {
+	//this(MeritBank.getNextAccountNumber(), balance, interestRate, accountOpenedOn);
+    //	this(balance, interestRate, accountOpenedOn);	
+    //}
 
     // Constructor w/4 parameters
-    public BankAccount(long accountNumber, double balance, double interestRate, Date accountOpenedOn) {
-	this.accountNumber = accountNumber;
-	this.balance = balance;
-	this.interestRate = interestRate;
-	this.accountOpenedOn = accountOpenedOn;
+    //public BankAccount(long accountNumber, double balance, double interestRate, Date accountOpenedOn) {
+    public BankAccount(double balance, double interestRate, Date accountOpenedOn) {
+	//this.accountNumber = accountNumber;
+		this.balance = balance;
+		this.interestRate = interestRate;
+		this.accountOpenedOn = accountOpenedOn;
     }
 
     public long getAccountNumber() {
@@ -55,8 +67,17 @@ public class BankAccount {
     }
 
     public Date getOpenedOn() {
-	return this.accountOpenedOn;
+    	return this.accountOpenedOn;
     }
+    
+    public void setAccountHolder(AccountHolder accountHolder) {
+    	this.accountHolder = accountHolder;
+    }
+    
+    public AccountHolder getAccountHolder() {
+    	return this.accountHolder;
+    }
+    
 
     public boolean withdraw(double amount) {
 	if (amount >= 0 && amount <= this.balance) {
@@ -80,17 +101,17 @@ public class BankAccount {
 	return (this.balance * (Math.pow(1 + this.getInterestRate(), years)));
     }
 
-    public static BankAccount readFromString(String accountData) throws ParseException {
-	String[] arrayCD = accountData.split(",");
-	DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-	try {
-
-	    return new BankAccount(Long.parseLong(arrayCD[0]), Double.parseDouble(arrayCD[1]),
-		    Double.parseDouble(arrayCD[2]), dateFormat.parse(arrayCD[3]));
-	} catch (Exception ex) {
-	    throw new NumberFormatException(ex.getMessage());
-	}
-    }
+//    public static BankAccount readFromString(String accountData) throws ParseException {
+//	String[] arrayCD = accountData.split(",");
+//	DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+//	try {
+//
+//	    return new BankAccount(Long.parseLong(arrayCD[0]), Double.parseDouble(arrayCD[1]),
+//		    Double.parseDouble(arrayCD[2]), dateFormat.parse(arrayCD[3]));
+//	} catch (Exception ex) {
+//	    throw new NumberFormatException(ex.getMessage());
+//	}
+//    }
 
     public String writeToString() {
 	return this.getAccountNumber() + "," + this.getBalance() + "," + this.getInterestRate() + ","

@@ -1,8 +1,13 @@
 package com.meritamerica.assignment6.models;
 
+import javax.persistence.*;
 import javax.validation.constraints.*;
 
+@Entity
 public class CDOffering {
+	
+	@Id
+	@GeneratedValue
     private int id;
 	
     // Instance Variables
@@ -15,9 +20,13 @@ public class CDOffering {
 	@DecimalMax(value = "1", inclusive = false, message = "Interest rate must be less than 1.")
     private double interestRate;
 
+    // Default constructor
+    public CDOffering() {
+    	this(1, 0.1);
+    }
+	
     // Constructor with parameters
     public CDOffering(int term, double interestRate) {
-    	this.id = MeritBank.getNextCDOfferingId();    	
 		this.term = term;
 		this.interestRate = interestRate;
     }
