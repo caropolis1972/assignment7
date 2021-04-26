@@ -20,9 +20,6 @@ public class AccountHolderController {
 	AccountHolderRepository accountHolderRepository;
 
 	@Autowired
-	AccountHolderContactDetailsRepository accountHolderContactDetailsRepository;
-	
-	@Autowired
 	CheckingAccountRepository checkingAccountRepository;
 	
 	@Autowired
@@ -42,19 +39,7 @@ public class AccountHolderController {
 	@PostMapping("/AccountHolders")
 	@ResponseStatus(HttpStatus.CREATED)
 	public AccountHolder createAccountHolder(@Valid @RequestBody AccountHolder accountHolder) {
-		// Save account holder first.
-		accountHolder = accountHolderRepository.save(accountHolder);	
-		
-		// Grab contact details from saved account holder.
-		AccountHolderContactDetails contactDetails = accountHolder.getContactDetails();
-		contactDetails.setAccountHolder(accountHolder);
-		contactDetails = accountHolderContactDetailsRepository.save(contactDetails);
-		
-		// Save contact details.
-		accountHolder.setContactDetails(contactDetails);
-		
-		// Return fully-saved account holder.
-		return accountHolder;
+		return accountHolderRepository.save(accountHolder);	
 	} 
 	
 	@GetMapping("/AccountHolders/{id}")

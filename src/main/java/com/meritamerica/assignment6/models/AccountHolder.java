@@ -16,7 +16,9 @@ public class AccountHolder implements Comparable<AccountHolder> {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
     private long id;
 
-    @OneToOne(targetEntity=AccountHolderContactDetails.class, mappedBy = "accountHolder", fetch = FetchType.EAGER)
+    //@OneToOne(targetEntity=AccountHolderContactDetails.class, mappedBy = "accountHolder", fetch = FetchType.EAGER)
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "contact_details_id", referencedColumnName = "id")
     private AccountHolderContactDetails contactDetails;
     
     @OneToMany(targetEntity=CheckingAccount.class, mappedBy = "accountHolder", fetch = FetchType.LAZY)
@@ -33,12 +35,16 @@ public class AccountHolder implements Comparable<AccountHolder> {
     	checkingAccounts = new ArrayList<>();
     	savingsAccounts = new ArrayList<>();
     	cdAccounts = new ArrayList<>();
+    	this.contactDetails = new AccountHolderContactDetails();
     }
 
     // Constructor with parameters
     public AccountHolder(String firstName, String middleName, String lastName, String ssn) {
-    	this();    	
-    	this.contactDetails = new AccountHolderContactDetails(firstName, middleName, lastName, ssn);    	
+    	this();
+    	this.contactDetails.setFirstName(firstName);
+    	this.contactDetails.setMiddleName(middleName);
+    	this.contactDetails.setLastName(lastName);
+    	this.contactDetails.setSSN(ssn);
     }
 
     // Setters and Getters methods for each instance variable
@@ -52,6 +58,38 @@ public class AccountHolder implements Comparable<AccountHolder> {
     
     public void setContactDetails(AccountHolderContactDetails contactDetails) {
     	this.contactDetails = contactDetails;
+    }    
+    
+    public String getFirstName() {
+    	return this.contactDetails.getFirstName();
+    }
+
+    public void setFirstName(String firstName) {
+    	this.getContactDetails().setFirstName(firstName);
+    }
+
+    public String getMiddleName() {
+    	return this.contactDetails.getMiddleName();
+    }
+
+    public void setMiddleName(String middleName) {
+    	this.getContactDetails().setMiddleName(middleName);
+    }
+
+    public String getLastName() {
+    	return this.contactDetails.getLastName();
+    }
+
+    public void setLastName(String lastName) {
+    	this.getContactDetails().setLastName(lastName);
+    }
+
+    public String getSSN() {
+    	return this.contactDetails.getSSN();
+    }
+
+    public void setSSN(String ssn) {
+    	this.getContactDetails().setSSN(ssn);
     }    
     
     public CheckingAccount addCheckingAccount(double openingBalance) throws ExceedsCombinedBalanceException {

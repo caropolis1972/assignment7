@@ -24,13 +24,15 @@ public class AccountHolderContactDetails {
     
     @NotEmpty(message = "Social Security Number is required.")
 	private String ssn;
-    
-    @JsonIgnore
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "account_holder_id")
+ 
+    @JsonIgnore    
+    @OneToOne(mappedBy = "contactDetails")
     private AccountHolder accountHolder; 
     
     // Default Constructor
+    public AccountHolderContactDetails() { }
+    
+    // Constructor with four parameters
     public AccountHolderContactDetails(String firstName, String middleName, String lastName, String ssn) {
 		this.firstName = firstName;
 		this.middleName = middleName;
